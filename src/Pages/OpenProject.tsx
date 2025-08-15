@@ -1,9 +1,9 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 const OpenProject: React.FC = () => {
   // For demo: Fake project data
-  const { id } = useParams();
+  // const { id } = useParams();
   const project = {
     title: "Stock Price Predictor",
     description:

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Intership: React.FC = () => {
   const [tasks, setTasks] = useState([
@@ -9,15 +9,19 @@ const Intership: React.FC = () => {
     { id: 5, text: "Submit Final Project", done: false },
   ]);
 
-  const toggleTask = (id: number) => {
-    setTasks(tasks.map(task => 
-      task.id === id ? { ...task, done: !task.done } : task
-    ));
-  };
+ 
 
   const completedCount = tasks.filter(task => task.done).length;
   const allComplete = completedCount === tasks.length;
-
+ useEffect(()=>{
+  setTasks([
+    { id: 1, text: "Complete React Basics", done: false },
+    { id: 2, text: "Finish Tailwind Styling", done: true },
+    { id: 3, text: "Build First Project", done: false },
+    { id: 4, text: "Pass Level 4 Quiz", done: false },
+    { id: 5, text: "Submit Final Project", done: false },
+  ])
+ })
   return (
    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-4">Complete to Unlock 🔒</h1>

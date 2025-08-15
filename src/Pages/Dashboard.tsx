@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Dashboard: React.FC = () => {
   const [level] = useState(4);
@@ -22,6 +22,9 @@ const Dashboard: React.FC = () => {
     { id: 1, from: "Admin", text: "Welcome to the community! 🎉" },
     { id: 2, from: "John", text: "Need help with Tailwind styling?" },
   ];
+  useEffect(()=>{
+    setXp(250)
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">

@@ -14,10 +14,7 @@ const Courses: React.FC = () => {
     { name: "Machine Learning", progress: 0, color: "bg-yellow-500", enrolled: false },
     { name: "UI/UX Design", progress: 0, color: "bg-pink-500", enrolled: false },
   ]);
-   const availableProjects = [
-    { id: 3, title: "Stock Price Predictor", description: "ML-based stock prediction tool" },
-    { id: 4, title: "Portfolio Website", description: "React + Tailwind portfolio template" },
-  ];
+  
 
   const handleEnroll = (index: number) => {
     const updatedCourses = [...courses];
