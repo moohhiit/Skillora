@@ -98,8 +98,8 @@ const Dashboard: React.FC = () => {
           <h2 className="text-lg font-semibold mb-2">Leaderboard</h2>
           <ol className="list-decimal list-inside">
             <li>Mohit Sharma – 1500 XP</li>
-            <li>John Doe – 1400 XP</li>
-            <li>Jane Smith – 1350 XP</li>
+            <li>Sumit – 1400 XP</li>
+            <li>Ansh – 1350 XP</li>
           </ol>
         </div>
       </div>

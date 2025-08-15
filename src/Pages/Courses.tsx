@@ -84,20 +84,7 @@ const Courses: React.FC = () => {
           <p className="text-gray-500">No available courses to enroll.</p>
         )}
       </section>
-      <section>
-        <h2 className="text-2xl font-semibold text-purple-600 mb-4">Available Projects</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          {availableProjects.map((project) => (
-            <div key={project.id} className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-              <h3 className="text-lg font-bold text-gray-800">{project.title}</h3>
-              <p className="text-gray-600 mt-1">{project.description}</p>
-              <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                Join Project
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+      
     </div>
   );
 };

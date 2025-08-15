@@ -13,13 +13,13 @@ export default function QueryScreen() {
       id: 1,
       question: "How do I integrate Tailwind CSS in a Vite project?",
       answer: "You can follow the official Tailwind docs for Vite setup. Install dependencies and update your postcss.config.js.",
-      mentions: ["@Mohit", "@TechMentor"]
+      mentions: ["@MohitSharma", "@Ansh"]
     },
     {
       id: 2,
       question: "What is the difference between React and React Native?",
       answer: "React is for building web apps, while React Native is for mobile apps using native components.",
-      mentions: ["@JohnDoe"]
+      mentions: ["@MohitSharma"]
     }
   ]);
 

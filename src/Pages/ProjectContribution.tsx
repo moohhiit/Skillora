@@ -48,6 +48,7 @@ const ProjectContribution: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-800">
                 {project.title}
               </h3>
+              
               <p className="text-gray-600 mt-2">{project.description}</p>
               <div className="mt-3">
                 <span className="font-semibold text-gray-700">Tech Stack:</span>
@@ -61,7 +62,11 @@ const ProjectContribution: React.FC = () => {
                     </span>
                   ))}
                 </div>
+                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                Join Project
+              </button>
               </div>
+               
             </div>
           ))}
         </div>
@@ -111,13 +116,7 @@ const ProjectContribution: React.FC = () => {
             completed big projects.
           </p>
           <div className="mt-4">
-            <iframe
-              width="100%"
-              height="315"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Project Demo"
-              className="rounded-lg shadow"
-            ></iframe>
+           
           </div>
         </div>
       </section>
