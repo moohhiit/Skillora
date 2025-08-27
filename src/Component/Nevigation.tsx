@@ -12,12 +12,12 @@ const Navigation: React.FC<NavigationProps> = () => {
   const location = useLocation();
     const menu = [
 
-    { name: "DashBoard", path: "/Elevana/" },
-    { name: "Courses", path: "/Elevana/courses" },
-    { name: "Open Projects", path: "/Elevana/openproject" },
-    { name: "Intership", path: "/Elevana/intership" },
-    { name: "Query", path: "/Elevana/query" },
-    { name: "About", path: "/Elevana/about" },
+    { name: "DashBoard", path: "/dashboard" },
+    { name: "Courses", path: "/courses" },
+    { name: "Open Projects", path: "/openproject" },
+    { name: "Intership", path: "/intership" },
+    { name: "Query", path: "/query" },
+    { name: "About", path: "/about" },
   
   ];
   return (

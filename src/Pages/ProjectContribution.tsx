@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Project {
   title: string;
@@ -28,10 +29,16 @@ const projects: Project[] = [
   },
 ];
 
+
 const ProjectContribution: React.FC = () => {
   const runningProjects = projects.filter((p) => p.status === "running");
   const completedProjects = projects.filter((p) => p.status === "completed");
+  const Navigation = useNavigate()
 
+
+  const handleNavigation =()=>{
+    Navigation('/projectabout/1')
+  }
   return (
     <div className="flex-1 h-screen overflow-y-auto bg-gray-50 p-6">
       {/* Running Projects */}
@@ -48,7 +55,7 @@ const ProjectContribution: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-800">
                 {project.title}
               </h3>
-              
+
               <p className="text-gray-600 mt-2">{project.description}</p>
               <div className="mt-3">
                 <span className="font-semibold text-gray-700">Tech Stack:</span>
@@ -62,11 +69,17 @@ const ProjectContribution: React.FC = () => {
                     </span>
                   ))}
                 </div>
-                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                Join Project
-              </button>
-              </div>
                
+                <button
+                  onClick={handleNavigation}
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+
+                  About Project
+                </button>
+
+              </div>
+
             </div>
           ))}
         </div>
@@ -100,6 +113,14 @@ const ProjectContribution: React.FC = () => {
                   ))}
                 </div>
               </div>
+              
+                <button
+                  onClick={handleNavigation}
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+
+                  About Project
+                </button>
             </div>
           ))}
         </div>
@@ -116,7 +137,7 @@ const ProjectContribution: React.FC = () => {
             completed big projects.
           </p>
           <div className="mt-4">
-           
+
           </div>
         </div>
       </section>

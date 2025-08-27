@@ -1,47 +1,73 @@
+import { useNavigate } from "react-router-dom";
+
 export default function ProjectAbout() {
+  const navigate = useNavigate();
+
+  // Example contributor list (this can come from API later)
   const contributors = [
-    { name: "Mohit Sharma", role: "Lead Developer", avatar: "https://i.pravatar.cc/100?u=mohit" },
-    { name: "John Doe", role: "Backend Developer", avatar: "https://i.pravatar.cc/100?u=john" },
-    { name: "Jane Smith", role: "UI/UX Designer", avatar: "https://i.pravatar.cc/100?u=jane" },
+    { name: "Mohit Sharma", role: "Full Stack Developer" },
+    { name: "Ansh", role: "UI/UX Designer" },
+    { name: "Sumit", role: "Backend Engineer" },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
+  
+      <div className="w-full bg-white  p-8 relative h-full">
         
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">About This Project</h1>
-        <p className="text-gray-700 mb-8">
-          This platform allows users to post questions, provide answers, and collaborate with other 
-          contributors. It is designed for speed, scalability, and ease of use.
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-4 left-4 bg-gray-200 hover:bg-gray-300 text-black px-4 py-2 rounded-lg transition"
+        >
+          ⬅ Back
+        </button>
+
+        {/* Project Title */}
+        <h1 className="text-3xl font-bold text-indigo-600 mb-4 text-center">
+          🚀 AI Learning Platform
+        </h1>
+
+        {/* Project Description */}
+        <p className="text-gray-800 mb-6 leading-relaxed text-center">
+          This project is an open-source initiative to create a modern learning 
+          platform for students and developers. It combines real-time collaboration, 
+          personalized dashboards, progress tracking, and a strong focus on 
+          technical skill growth.
         </p>
 
-        <h2 className="text-2xl font-semibold mb-3">Features</h2>
-        <ul className="list-disc list-inside mb-8 space-y-2">
-          <li>Ask and answer questions in real-time</li>
-          <li>Tag users and use mentions</li>
-          <li>Responsive and modern UI</li>
+        {/* Features List */}
+        <h2 className="text-xl font-semibold text-indigo-500 mb-3">✨ Key Features:</h2>
+        <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+          <li>📊 Interactive dashboard with real-time progress tracking</li>
+          <li>🤝 Open project contributions for community learning</li>
+          <li>🎯 AI-driven suggestions based on skill level</li>
+          <li>📚 Learning modules with quizzes and coding tasks</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold mb-3">Tech Stack</h2>
-        <div className="flex flex-wrap gap-2 mb-8">
-          {["React", "Vite", "Tailwind CSS", "Node.js", "Express"].map((tech) => (
-            <span key={tech} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <h2 className="text-2xl font-semibold mb-4">Contributors</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {contributors.map((c, idx) => (
-            <div key={idx} className="bg-white rounded-lg shadow p-4 flex flex-col items-center text-center">
-              <img src={c.avatar} alt={c.name} className="w-16 h-16 rounded-full mb-3 border" />
-              <h3 className="font-semibold">{c.name}</h3>
-              <p className="text-sm text-gray-600">{c.role}</p>
+        {/* Contributors Section */}
+        <h2 className="text-xl font-semibold text-indigo-500 mb-3">👥 Contributors:</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          {contributors.map((c, index) => (
+            <div
+              key={index}
+              className="border border-gray-300 rounded-lg p-4 shadow hover:shadow-md transition"
+            >
+              <h3 className="text-lg font-semibold text-indigo-600">{c.name}</h3>
+              <p className="text-gray-700">{c.role}</p>
             </div>
           ))}
         </div>
+
+        {/* Contribution CTA */}
+        <div className="flex justify-center">
+          <button
+            onClick={() => navigate("/project-contribution")}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full shadow-lg transition-all duration-300"
+          >
+            💡 Contribute to Project
+          </button>
+        </div>
       </div>
-    </div>
+   
   );
 }

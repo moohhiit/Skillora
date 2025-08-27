@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+
 const Intership: React.FC = () => {
   const [tasks, setTasks] = useState([
     { id: 1, text: "Complete React Basics", done: false },
@@ -21,7 +22,7 @@ const Intership: React.FC = () => {
     { id: 4, text: "Pass Level 4 Quiz", done: false },
     { id: 5, text: "Submit Final Project", done: false },
   ])
- })
+ },[])
   return (
    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-4">Complete to Unlock 🔒</h1>

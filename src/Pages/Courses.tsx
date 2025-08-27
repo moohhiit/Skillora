@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Course {
   name: string;
@@ -15,6 +16,7 @@ const Courses: React.FC = () => {
     { name: "UI/UX Design", progress: 0, color: "bg-pink-500", enrolled: false },
   ]);
   
+  const navigation = useNavigate()
 
   const handleEnroll = (index: number) => {
     const updatedCourses = [...courses];
@@ -25,7 +27,9 @@ const Courses: React.FC = () => {
 
   const currentCourses = courses.filter(course => course.enrolled);
   const availableCourses = courses.filter(course => !course.enrolled);
-
+  const handleaboutproject = ()=>{
+    navigation("/course/1") 
+  }
   return (
     <div className="min-h-screen bg-gray-100 p-8 space-y-10">
       
@@ -68,11 +72,11 @@ const Courses: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-3">{course.name}</h2>
                 <button
                   onClick={() =>
-                    handleEnroll(courses.findIndex(c => c.name === course.name))
+                    handleaboutproject()
                   }
                   className="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition"
                 >
-                  Enroll Now
+                  About Course
                 </button>
               </div>
             ))}

@@ -1,50 +1,82 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import Navigation from "./Component/Nevigation";
 
 import type { TabType } from "./data";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Courses from "./Pages/Courses.tsx";
 import Dashboard from "./Pages/Dashboard.tsx";
 import OpenProject from "./Pages/OpenProject.tsx";
 import ProjectContribution from "./Pages/ProjectContribution.tsx";
 import QueryScreen from "./Pages/QueryScreen.tsx";
-// import About from "./Pages/ProjectAbout.tsx";
 import ProjectAbout from "./Pages/ProjectAbout.tsx";
 import CompanyAbout from "./Pages/CompanyAbout.tsx";
 import Intership from "./Pages/Intership.tsx";
-// import Login from "./Auth/LoginScreen.tsx";
-// import Signup from "./Auth/SignupScreen.tsx";
-// import OnboardingQuestions from "./Component/OnboardingScreen.tsx";
+import CourseAbout from "./Pages/CouseAbout.tsx";
+import Showcase from "./Pages/Showcase.tsx";
+
+import { AuthProvider, useAuth } from "./Context/AuthContext.tsx";
+import Login from "./Auth/LoginScreen.tsx";
+import Signup from "./Auth/SignupScreen.tsx";
+import OnboardingQuestions from "./Component/OnboardingScreen.tsx";
 
 
-const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>("news");
+function PrivateLayout() {
+  const [activeTab, setActiveTab] = useState<TabType>("cartoon");
 
   return (
-    <div className="h-screen flex bg-gray-200">
-       <div className="w-64 bg-black text-white fixed h-screen overflow-hidden">
-        
-      <Navigation activeTab={activeTab} onChange={setActiveTab} />
+    <div className="h-screen flex bg-gray-200 overflow-hidden">
+      {/* Sidebar */}
+      <div className="w-64 bg-black text-white fixed h-screen overflow-hidden">
+        <Navigation activeTab={activeTab} onChange={setActiveTab} />
       </div>
-        <div className="ml-64 flex-1 overflow-y-auto">
+
+      {/* Main content */}
+      <div className="ml-64 flex-1 overflow-y-auto">
         <Routes>
-           {/* <Route path="/login" element={<Login  />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/onboarding" element={<OnboardingQuestions></OnboardingQuestions>} /> */}
-          <Route path="/Elevana/" element={<Dashboard />} />
-          <Route path="/Elevana/openproject" element={<ProjectContribution/>} />
-          <Route path="/Elevana/project/:id" element={<OpenProject/>} />
-          <Route path="/Elevana/courses" element={<Courses />} />
-     
-          <Route path="/Elevana/query" element={<QueryScreen />} />
-          <Route path="/Elevana/projectabout/:id" element={<ProjectAbout />} />
-          <Route path="/Elevana/about" element={<CompanyAbout />} />
-          <Route path="/Elevana/intership" element={<Intership />} />
-          
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/openproject" element={<ProjectContribution />} />
+          <Route path="/project/:id" element={<OpenProject />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/query" element={<QueryScreen />} />
+          <Route path="/projectabout/:id" element={<ProjectAbout />} />
+          <Route path="/about" element={<CompanyAbout />} />
+          <Route path="/intership" element={<Intership />} />
+          <Route path="/course/:id" element={<CourseAbout />} />
         </Routes>
       </div>
-         </div>
+    </div>
+  );
+}
+const App: React.FC = () => {
+
+  // 🔒 Route protection
+  function ProtectedRoute({ children }: { children: JSX.Element }) {
+    const { user, loading } = useAuth();
+    if (loading) return <p>Loading...</p>;
+    return user ? children : <Navigate to="/" replace />;
+  }
+
+  return (
+    <AuthProvider>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Showcase />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/onboarding" element={<OnboardingQuestions />} />
+
+        {/* Private Routes */}
+        <Route
+          path="/*"
+          element={
+            <ProtectedRoute>
+              <PrivateLayout />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </AuthProvider>
   );
 };
 
