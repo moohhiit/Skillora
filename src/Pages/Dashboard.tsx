@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 
 const Dashboard: React.FC = () => {
+
   const [level] = useState(4);
   const [xp, setXp] = useState(320);
   const xpRequired = 500;
-
+  
   const progressPercent = (xp / xpRequired) * 100;
 
   const tasks = [

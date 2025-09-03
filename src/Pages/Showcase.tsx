@@ -69,9 +69,9 @@ const Showcase: React.FC = () => {
         <h2 className="text-3xl font-bold text-indigo-700">Student Stories</h2>
         <div className="grid md:grid-cols-2 gap-8 mt-10 max-w-5xl mx-auto">
           <TestimonialCard
-            name="Aditi Sharma"
+            name="-----"
             role="Student Developer"
-            feedback="EduHub helped me build my first real-world project and land an internship."
+            feedback="Elevana helped me build my first real-world project and land an internship."
           />
           <TestimonialCard
             name="Rahul Verma"

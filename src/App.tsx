@@ -19,6 +19,8 @@ import { AuthProvider, useAuth } from "./Context/AuthContext.tsx";
 import Login from "./Auth/LoginScreen.tsx";
 import Signup from "./Auth/SignupScreen.tsx";
 import OnboardingQuestions from "./Component/OnboardingScreen.tsx";
+import DeviceCheck from "./Component/DeviceCheck.tsx";
+import { DataProvider } from "./Context/UserDataContext.tsx";
 
 
 function PrivateLayout() {
@@ -42,7 +44,26 @@ function PrivateLayout() {
           <Route path="/projectabout/:id" element={<ProjectAbout />} />
           <Route path="/about" element={<CompanyAbout />} />
           <Route path="/intership" element={<Intership />} />
-          <Route path="/course/:id" element={<CourseAbout />} />
+          <Route path="/course/:id" element={<CourseAbout project={{
+            id: "p-001",
+            title: "Open Source Learning Platform",
+            description:
+              "A collaborative project where students can learn, contribute, and share resources in real-time. Built with React, Node.js, and Firebase.",
+            tags: ["React", "Node.js", "Firebase", "OpenSource"],
+            repoUrl: "https://github.com/example/repo",
+            websiteUrl: "https://example.com",
+            coverImage:
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80",
+            contributors: [
+              { id: "u1", name: "Mohit Sharma", avatar: "https://i.pravatar.cc/100?img=3" },
+              { id: "u2", name: "Sneha Rao" },
+              { id: "u3", name: "Arjun Patel", avatar: "https://i.pravatar.cc/100?img=6" },
+            ],
+          }} 
+          onContribute={()=>{console.log("Contribute Clicked")}}
+          
+          
+          />} />
         </Routes>
       </div>
     </div>
@@ -59,23 +80,29 @@ const App: React.FC = () => {
 
   return (
     <AuthProvider>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Showcase />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/onboarding" element={<OnboardingQuestions />} />
+      <DataProvider>
 
-        {/* Private Routes */}
-        <Route
-          path="/*"
-          element={
-            <ProtectedRoute>
-              <PrivateLayout />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Showcase />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/onboarding" element={<OnboardingQuestions />} />
+
+
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <DeviceCheck>
+                  <PrivateLayout />
+                </DeviceCheck>
+              </ProtectedRoute>
+            }
+          />
+
+        </Routes>
+      </DataProvider>
     </AuthProvider>
   );
 };

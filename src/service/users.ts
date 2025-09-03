@@ -10,14 +10,14 @@ export type UserProfile = {
   role: "user" | "admin";
 };
 
-export async function createUserProfileIfNeeded(user: User) {
-  const ref = doc(db, "users", user.uid);
+export async function createUserProfileIfNeeded(user: User , name:string ) {
+  const ref = doc(db, "Student_Detail", user.uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) {
     const profile: UserProfile = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName ?? null,
+      displayName: user.displayName ?? name,
       createdAt: serverTimestamp(),
       role: "user",
     };
