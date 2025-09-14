@@ -7,27 +7,23 @@ export function HomePage() {
   const services = [
     {
       icon: Code,
-      title: "Full Stack Development",
-      description: "Master JavaScript, React.js, Next.js, and backend technologies",
-      skills: ["JavaScript", "React.js", "Next.js", "Node.js"]
+      title: "Real Experience, Real Resume",
+      description: 'No more adding “self-learning” on your resume. Showcase real projects and skills employers care about',
     },
     {
       icon: Brain,
-      title: "AI & Machine Learning",
-      description: "Deep dive into AI, ML, DL, and Generative AI technologies",
-      skills: ["Python", "TensorFlow", "PyTorch", "OpenAI"]
+      title: "Mentorship You Can Trust",
+      description: "Get feedback and guidance from industry experts who care about helping you succeed.",
     },
     {
       icon: Zap,
-      title: "Automation & N8N",
-      description: "Build powerful workflows and automation solutions",
-      skills: ["N8N", "Zapier", "APIs", "Webhooks"]
+      title: "A Community That Grows With You",
+      description: "Learn together, share ideas, and build friendships that last beyond the classroom.",
     },
     {
       icon: Mic,
-      title: "Voice Agents",
-      description: "Create intelligent voice-powered applications",
-      skills: ["Speech AI", "NLP", "Voice UI", "Conversational AI"]
+      title: "Opportunities That Match Your Goals",
+      description: "Internships, collaborations, and challenges designed to help you grow professionally.",
     }
   ];
 
@@ -40,28 +36,26 @@ export function HomePage() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <span className="px-3 py-1 text-sm rounded bg-gray-200 w-fit inline-block">
-                  Expert-Led Training
+                  Connect. Learn. Showcase. Succeed.
                 </span>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900">
-                  Master the Future of
-                  <span className="text-purple-600"> AI & Tech</span>
+                  Learn by Doing
+                  <span style={{ color: '#00ADB5' }}> Grow by Contributing</span>
                 </h1>
                 <p className="text-lg text-gray-600 max-w-xl">
-                  Join our comprehensive internship programs and online courses.
-                  Learn software engineering, AI/ML, and cutting-edge
-                  technologies from industry experts.
+                  Skillora is a smart platform designed for students who want to learn, grow, and showcase their abilities. It’s more than just a resume builder – it’s a complete ecosystem where students can contribute to real open-source projects, gain practical experience, and update their resumes with meaningful accomplishments.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-4">
                 <Link
                   to={'/about'}
-                  className="px-6 py-3 text-white bg-purple-600 rounded-lg flex items-center"
+                  className="px-6 py-3 text-white bg-black rounded-lg flex items-center"
                 >
                   Get Started <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
                 <Link
-                 to={'/team'}
+                  to={'/team'}
                   className="px-6 py-3 border rounded-lg"
                 >
                   Meet Our Team
@@ -99,16 +93,11 @@ export function HomePage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <span className="px-3 py-1 text-sm rounded bg-purple-200 w-fit mx-auto inline-block">
-              Our Expertise
-            </span>
+
             <h2 className="text-3xl lg:text-4xl font-bold">
-              Comprehensive Learning Programs
+              How It Works
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              From frontend to backend, AI to automation - we cover all aspects
-              of modern software development
-            </p>
+
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -120,24 +109,15 @@ export function HomePage() {
                   className="p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
                 >
                   <div className="space-y-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-purple-600" />
+                    <div className="w-12 h-12 bg-neutral rounded-lg flex items-center justify-center" style={{backgroundColor:'#00ADB5'}}>
+                      <Icon className="w-6 h-6 " style={{ color: 'white' }} />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">{service.title}</h3>
-                      <p className="text-sm text-gray-600 mb-4">
+                      <p className="text-sm  mb-4">
                         {service.description}
                       </p>
-                      <div className="flex flex-wrap gap-2">
-                        {service.skills.map((skill, skillIndex) => (
-                          <span
-                            key={skillIndex}
-                            className="px-2 py-1 text-xs  rounded"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -162,8 +142,9 @@ export function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-            to={'/about'}
-              className="px-6 py-3 bg-purple-600 text-white rounded-lg"
+              to={'/about'}
+              className="px-6 py-3  text-white rounded-lg"
+              style={{backgroundColor:'#00ADB5'}}
             >
               Learn More About Us
             </Link>

@@ -18,7 +18,7 @@ const PublicNavBar: React.FC<NavigationProps> = () => {
         { id: "home", label: "Home", icon: <Home className="w-5 h-5" />, path: '/' },
         { id: "about", label: "About", icon: <Info className="w-5 h-5" />, path: '/about' },
         { id: "team", label: "Team", icon: <Users className="w-5 h-5" />, path: '/teamElevana' },
-        { id: "projects", label: "Projects", icon: <FolderKanban className="w-5 h-5" />, path: '/projects' },
+        // { id: "projects", label: "Projects", icon: <FolderKanban className="w-5 h-5" />, path: '/projects' },
     ];
 
     
@@ -26,7 +26,7 @@ const PublicNavBar: React.FC<NavigationProps> = () => {
         ? [{ id: "dashboard", label: "Dashboard", icon: <BarChart3 className="w-5 h-5" />, path: '/dashboard' }]
         : [
             { id: "login", label: "Login", icon: <LogIn className="w-5 h-5" />, path: '/login' },
-            { id: "signup", label: "Signup", icon: <UserPlus className="w-5 h-5" />, path: '/signup' },
+
           ];
 
     const allItems = [...navItems, ...authItems];
@@ -38,9 +38,9 @@ const PublicNavBar: React.FC<NavigationProps> = () => {
                     {/* Logo */}
                     <div className="flex items-center space-x-2">
                         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold">T</span>
+                            <img src="./src/assets/logo.svg" ></img>
                         </div>
-                        <span className="font-semibold text-lg">TechEdu Pro</span>
+                        <span className="font-semibold text-lg">Skillindia</span>
                     </div>
 
                     {/* Desktop Menu */}
@@ -79,9 +79,9 @@ const PublicNavBar: React.FC<NavigationProps> = () => {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                                <span className="text-primary-foreground font-bold">T</span>
+                                 <img src="./src/assets/logo.svg" ></img>
                             </div>
-                            <span className="font-semibold text-lg">TechEdu Pro</span>
+                            <span className="font-semibold text-lg">Skillora</span>
                         </div>
                         <button
                             onClick={() => setIsOpen(false)}
@@ -95,6 +95,7 @@ const PublicNavBar: React.FC<NavigationProps> = () => {
                             <Link
                                 key={item.id}
                                 to={item.path}
+                                onClick={() => setIsOpen(false)} 
                                 className={`flex items-center space-x-3 px-4 py-3 rounded-md text-sm font-medium transition ${location.pathname === item.path
                                     ? "bg-primary text-primary-foreground"
                                     : "text-muted-foreground hover:text-foreground hover:bg-accent"

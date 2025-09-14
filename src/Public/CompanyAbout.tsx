@@ -1,60 +1,66 @@
-import { Target, Lightbulb, Award, Users } from "lucide-react";
+import {  Lightbulb, Users, Zap, BookOpen, Shield, Globe } from "lucide-react";
 
 export function AboutPage() {
+
+
   const values = [
     {
-      icon: Target,
-      title: "Mission-Driven",
-      description:
-        "Empowering the next generation of tech professionals through practical, industry-relevant education",
+      "id": 1,
+      "title": "Empowerment",
+      "description": "We believe every student has the potential to succeed. Our platform gives you the tools, resources, and opportunities to build skills, gain experience, and confidently pursue your career goals.",
+      "icon": Zap
     },
     {
-      icon: Lightbulb,
-      title: "Innovation First",
-      description:
-        "Staying ahead of technology trends to provide cutting-edge curriculum and learning experiences",
+      "id": 2,
+      "title": "Collaboration",
+      "description": "Learning is stronger when we grow together. We foster a supportive community where students, mentors, and professionals share knowledge, solve problems, and celebrate each other’s achievements.",
+      "icon": Users
     },
     {
-      icon: Award,
-      title: "Quality Excellence",
-      description:
-        "Maintaining high standards in education delivery and student outcomes",
+      "id": 3,
+      "title": "Lifelong Learning",
+      "description": "Education doesn’t end with a classroom. We encourage curiosity and continuous learning, helping students stay updated with new technologies and gain practical experience through real-world projects.",
+      "icon": BookOpen
     },
     {
-      icon: Users,
-      title: "Community Focus",
-      description:
-        "Building a supportive learning community that extends beyond the classroom",
+      "id": 4,
+      "title": "Integrity & Trust",
+      "description": "Transparency and authenticity guide everything we do. We ensure every contribution is verified and every achievement is celebrated. Our goal is to build trust between students, mentors, and recruiters.",
+      "icon": Shield
     },
-  ];
+    {
+      "id": 5,
+      "title": "Innovation",
+      "description": "Creativity and problem-solving open new doors. We encourage students to experiment, think outside the box, and bring fresh ideas to projects, shaping the future one contribution at a time.",
+      "icon": Lightbulb
+    },
+    {
+      "id": 6,
+      "title": "Accessibility & Inclusivity",
+      "description": "Opportunities should be open to everyone. We strive to make learning affordable, approachable, and welcoming for students from all backgrounds — because talent knows no boundaries.",
+      "icon": Globe
+    }
+  ]
+    ;
 
-  const stats = [
-    { number: "4+", label: "Years Experience" },
-    { number: "500+", label: "Students Mentored" },
-    { number: "50+", label: "Industry Projects" },
-    { number: "95%", label: "Job Placement Rate" },
-  ];
+
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Story Section */}
       <div className="grid lg:grid-cols-2 gap-12 px-8 lg:px-16 py-20 items-center">
         <div>
-          <h2 className="text-3xl font-semibold mb-6 text-purple-600">
+          <h2 className="text-3xl font-semibold mb-6 " style={{color : '#00ADB5'}}>
             Our Story
           </h2>
           <p className="text-gray-700 mb-4">
-            TechEdu Pro was founded by a team of industry veterans who saw the
-            gap between traditional education and industry demands.
+            It all started when we noticed a common struggle among students — they were eager to learn but unsure where to begin. Many had great ideas and ambition but lacked real-world experience, guidance, and a way to showcase their skills. Resumes didn’t reflect their potential, and opportunities often seemed out of reach.
           </p>
           <p className="text-gray-700 mb-4">
-            Having worked in startups, global tech firms, and emerging
-            technologies like Voice AI & automation, our mentors bring practical
-            insights to every program.
+            We’ve been there too.
           </p>
           <p className="text-gray-700">
-            Through internships, projects, and guided mentorship, we prepare
-            students to confidently tackle real-world challenges.
+            As students ourselves, we wanted to learn, build projects, and grow — but we didn’t always have the right support or structure. That’s why we created Skillindia — a place where learning isn’t just about theory, but about action, collaboration, and growth. We believe that every student deserves a chance to prove their abilities, gain confidence, and find opportunities that match their passion.
           </p>
         </div>
         <div>
@@ -69,17 +75,18 @@ export function AboutPage() {
       {/* Student Learning Section */}
       <div className="grid lg:grid-cols-2 gap-12 px-8 lg:px-16 py-20 items-center">
         <div>
-          <h2 className="text-3xl font-bold mb-6 text-purple-600">
-            Student Learning
+          <h2 className="text-3xl font-bold mb-6 " style={{color : '#00ADB5'}}>
+            Our Mission is Simple:
           </h2>
           <p className="text-gray-700 mb-4">
-            At TechEdu Pro, students learn through interactive sessions, hands-on
-            coding labs, and guided mentorship. Our programs ensure a strong
-            foundation in both theory and practice.
+            Empower students to learn, contribute, and showcase their talents — so they can build the careers they dream of.
+          </p>
+          <p className="text-gray-700 mb-4">
+            With expert mentorship, hands-on projects, and a community that lifts each other up, we’re helping students turn ambition into achievement. Whether you’re just starting or want to level up, SkillForge is here to support you every step of the way.
           </p>
           <ul className="list-disc list-inside text-gray-700 space-y-2">
             <li>Live coding sessions & workshops</li>
-            <li>Self-paced learning with mentor guidance</li>
+            <li>Open Projects with mentor guidance</li>
             <li>Weekly quizzes and feedback</li>
             <li>Community discussions and support</li>
           </ul>
@@ -87,7 +94,7 @@ export function AboutPage() {
         <div>
           <img
             src="https://cdn.pixabay.com/photo/2024/04/18/10/09/ai-generated-8703972_1280.jpg"
-            alt="Students learning"
+            alt="Our Mission"
             className="w-full h-96 object-cover rounded-2xl shadow"
           />
         </div>
@@ -103,7 +110,7 @@ export function AboutPage() {
           />
         </div>
         <div className="order-1 lg:order-2">
-          <h2 className="text-3xl font-bold mb-6 text-purple-600">
+          <h2 className="text-3xl font-bold mb-6 " style={{color : '#00ADB5'}}>
             Student Working
           </h2>
           <p className="text-gray-700 mb-4">
@@ -119,10 +126,10 @@ export function AboutPage() {
           </ul>
         </div>
       </div>
-
+     
       {/* Values Section */}
       <div className="bg-gray-50 py-16 px-8 lg:px-16">
-        <h2 className="text-3xl font-semibold text-center mb-10 text-purple-600">
+        <h2 className="text-3xl font-semibold text-center mb-10 " style={{color : '#00ADB5'}}>
           Our Core Values
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -131,12 +138,12 @@ export function AboutPage() {
             return (
               <div
                 key={idx}
-                className="p-8 bg-white rounded-2xl text-center shadow-md hover:shadow-xl transition-all border"
+                className="p-8 bg-white rounded-2xl text-center shadow-md hover:shadow-xl transition-all "
               >
-                <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-purple-50 rounded-full">
-                  <Icon className="w-8 h-8 text-purple-600" />
+                <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full" style={{backgroundColor : '#00ADB5'}}>
+                  <Icon className="w-8 h-8" style={{color : 'black'}} />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-purple-600">
+                <h3 className="text-lg font-semibold mb-2 " style={{color : '#00ADB5'}}>
                   {value.title}
                 </h3>
                 <p className="text-gray-600 text-sm">{value.description}</p>
@@ -146,20 +153,8 @@ export function AboutPage() {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="py-16 px-8 lg:px-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        {stats.map((stat, idx) => (
-          <div
-            key={idx}
-            className="bg-white border rounded-2xl p-6 shadow-md hover:scale-105 transition-transform"
-          >
-            <div className="text-4xl font-bold text-purple-600 mb-2">
-              {stat.number}
-            </div>
-            <div className="text-gray-700">{stat.label}</div>
-          </div>
-        ))}
-      </div>
+ 
+      
     </div>
   );
 }

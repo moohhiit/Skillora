@@ -28,6 +28,7 @@ export default function Login() {
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         {err && <p className="text-red-600 text-sm">{err}</p>}
+         <img src="./src/assets/logo.svg" className="mx-auto w-25 h-25 " ></img>
         <h1 className="text-2xl font-bold text-slate-800 text-center">Welcome back</h1>
         <form className="mt-6 space-y-4">
           <input
@@ -53,7 +54,8 @@ export default function Login() {
               </div> :
               <button
                 type="button"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
+                className="w-full  hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
+                style={{backgroundColor:'#00ADB5'}}
                 onClick={onLogin}
               >
                 Login

@@ -31,6 +31,7 @@ export default function Signup() {
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+          <img src="./src/assets/logo.svg" className="mx-auto w-25 h-25 " ></img>
         <h1 className="text-2xl font-bold text-slate-800 text-center">Create account</h1>
         {err && <p className="text-red-600 text-sm">{err}</p>}
         <form className="mt-6 space-y-4">
@@ -66,8 +67,9 @@ export default function Signup() {
                 type="button"
                 onClick={onSignup}
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition"
+                style={{backgroundColor:'#00ADB5'}}
               >
-                Continue
+                Sign Up
               </button>}
         </form>
 

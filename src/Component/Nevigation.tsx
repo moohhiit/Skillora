@@ -33,12 +33,20 @@ const Navigation: React.FC<NavigationProps> = () => {
         <div className="flex items-center gap-3">
           <Link to={'/'}>
             <img
-              src="src/assets/Logo-White.png"
+              src="src/assets/logo.svg"
               alt="App Logo"
               className="w-8 h-8"
             />
           </Link>
-          {!isMinimized && <h1 className="text-lg font-bold">Elevana</h1>}
+          {!isMinimized && 
+          
+          <Link
+          to={'/'}
+          >
+          <h1 className="text-lg font-bold">Skill India</h1>
+          </Link>
+          
+          }
         </div>
         <button
           onClick={() => setIsMinimized(!isMinimized)}
@@ -50,7 +58,7 @@ const Navigation: React.FC<NavigationProps> = () => {
 
       {/* User Info always visible */}
       <div className="p-4 border-b border-gray-700 flex items-center gap-4">
-        <div className="w-12 h-12 flex items-center justify-center rounded-full bg-indigo-500 text-lg font-bold">
+        <div className="w-12 h-12 flex items-center justify-center rounded-full  text-lg font-bold" style={{backgroundColor:'#00ADB5'}}>
           {user?.displayName ? user.displayName[0] : ""}
         </div>
         {!isMinimized && (
@@ -70,9 +78,10 @@ const Navigation: React.FC<NavigationProps> = () => {
                 to={tab.path}
                 className={`flex items-center gap-4 p-3 rounded-lg transition-all duration-200 ${
                   location.pathname === tab.path
-                    ? "bg-gray-800 text-indigo-400 shadow-lg"
+                    ? "bg-gray-800  shadow-lg"
                     : "hover:bg-gray-900"
                 }`}
+                style={{color:location.pathname === tab.path ?'#00ADB5' :'#ffffffff'}}
               >
                 <div>{tab.icon}</div>
                 {!isMinimized && <span>{tab.name}</span>}

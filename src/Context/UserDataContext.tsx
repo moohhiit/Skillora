@@ -32,6 +32,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [loading, setLoading] = useState<boolean>(false);
     const [profile, setProfile] = useState<UserProfile | null>(null);
 
+    const sendQuery = ()=>{
+        
+    }
+    const getquerybydate = (date:Number) =>{
+
+
+    }
+
+
     useEffect(() => {
         if (!user) {
             setProfile(null); 
