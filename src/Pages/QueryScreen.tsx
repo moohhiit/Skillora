@@ -1,42 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDataContext } from "../Context/UserDataContext";
+import { Timestamp } from "firebase/firestore";
+import { useAuth } from "../Context/AuthContext";
 
 interface Question {
   id: number;
   question: string;
   answer: string;
-  mentions?: string[];
+  ans_user: string
+  createdAt: Timestamp;
+  userId?: string;
+
 }
 
 export default function QueryScreen() {
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      id: 1,
-      question: "How do I integrate Tailwind CSS in a Vite project?",
-      answer: "You can follow the official Tailwind docs for Vite setup. Install dependencies and update your postcss.config.js.",
-      mentions: ["@MohitSharma", "@Ansh"]
-    },
-    {
-      id: 2,
-      question: "What is the difference between React and React Native?",
-      answer: "React is for building web apps, while React Native is for mobile apps using native components.",
-      mentions: ["@MohitSharma"]
-    }
-  ]);
-
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [newQuestion, setNewQuestion] = useState("");
+  const [isQuestiontoday, setisquestiontoday] = useState('')
+
+  const { user } = useAuth()
+
+  const { writeQueryOnDate, fetchTodayQueries } = useDataContext()
 
   const handleAddQuestion = () => {
     if (!newQuestion.trim()) return;
+
     const newQ: Question = {
       id: questions.length + 1,
       question: newQuestion,
       answer: "Waiting for answer...",
-      mentions: []
+      createdAt: Timestamp.now(),
+      ans_user: '',
+      userId: user?.uid
     };
     setQuestions([...questions, newQ]);
     setNewQuestion("");
+    writeQueryOnDate(newQ)
   };
 
+  useEffect(() => {
+    fetchTodayQueries().then(async (data) => {
+      const questionsData: Question[] = data.map((item: any) => ({
+        id: item.id,
+        question: item.question,
+        answer: item.answer,
+        ans_user: item.ans_user,
+        createdAt: item.createdAt,
+        userId: item.userId
+      }));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (questionsData.length !== 0) {
+        setQuestions(questionsData);
+      }
+      else {
+        setisquestiontoday("No Question Today!!")
+      }
+    })
+  }, [])
+
+
+  if (questions.length == 0 && isQuestiontoday == "") {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <div className="text-gray-500">Loading Question</div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col h-full bg-gray-50 p-6 overflow-y-auto">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Query & Discussion</h1>
@@ -48,18 +77,18 @@ export default function QueryScreen() {
             <h2 className="font-semibold text-lg text-gray-900">{q.question}</h2>
             <p className="text-gray-700 mt-2">{q.answer}</p>
 
-            {q.mentions && q.mentions.length > 0 && (
-              <div className="mt-2 space-x-2">
-                {q.mentions.map((m, i) => (
-                  <span
-                    key={i}
-                    className="text-blue-600 text-sm font-medium bg-blue-100 px-2 py-1 rounded"
-                  >
-                    {m}
-                  </span>
-                ))}
-              </div>
-            )}
+
+            <div className="mt-2 space-x-2">
+
+              <span
+
+                className="text-blue-600 text-sm font-medium bg-blue-100 px-2 py-1 rounded"
+              >
+                {q.ans_user}
+              </span>
+
+            </div>
+
           </div>
         ))}
       </div>
@@ -74,7 +103,8 @@ export default function QueryScreen() {
         />
         <button
           onClick={handleAddQuestion}
-          className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+          className="mt-3 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+          style={{ backgroundColor: '#00ADB5' }}
         >
           Add Question
         </button>

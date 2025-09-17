@@ -11,6 +11,7 @@ import DeviceCheck from "./Component/DeviceCheck";
 import PublicNavBar from "./Public/PublicNevBar";
 import ScrollToTop from "./Component/ScrollToTop";
 import { AnimatePresence, motion } from "framer-motion";
+import ProjectDetail from "./Pages/Projects/ProjectDetails";
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import("./Public/HomePage").then(mod => ({ default: mod.HomePage })));
@@ -22,7 +23,7 @@ const Signup = lazy(() => import("./Auth/SignupScreen"));
 const Dashboard = lazy(() => import("./Pages/Dashboard/Dashboard"));
 const Showcase = lazy(() => import("./Pages/Showcase"));
 const ProjectContribution = lazy(() => import("./Pages/ProjectContribution"));
-const OpenProject = lazy(() => import("./Pages/OpenProject"));
+const OpenProject = lazy(() => import("./Pages/Projects/OpenProject"));
 const Courses = lazy(() => import("./Pages/Courses"));
 const QueryScreen = lazy(() => import("./Pages/QueryScreen"));
 const ProjectAbout = lazy(() => import("./Pages/ProjectAbout"));
@@ -169,8 +170,8 @@ const App: React.FC = () => {
               >
                 <Route index element={<Dashboard />} />
                 <Route path="myproject" element={<Showcase />} />
-                <Route path="openproject" element={<ProjectContribution />} />
-                <Route path="project/:id" element={<OpenProject />} />
+                <Route path="openproject" element={<OpenProject />} />
+                <Route path="openproject/:id" element={<ProjectDetail />} />
                 <Route path="courses" element={<Courses />} />
                 <Route path="query" element={<QueryScreen />} />
                 <Route path="projectabout/:id" element={<ProjectAbout />} />

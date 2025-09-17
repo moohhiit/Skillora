@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, Timestamp, where } from "firebase/firestore";
 import { useAuth } from "./AuthContext";
 import { db } from "../service/Firebase";
 
@@ -15,6 +15,8 @@ interface DataContextType {
     courses: Course[];
     loading: boolean;
     profile: UserProfile | null;
+    writeQueryOnDate: (question_data: Query) => void;
+    fetchTodayQueries: () => Promise<Object[]>;
 }
 
 interface UserProfile {
@@ -22,6 +24,15 @@ interface UserProfile {
     name: string;
     email: string;
     role?: string;
+}
+
+type Query = {
+    id: number;
+    question: string;
+    answer: string;
+    ans_user: string
+    createdAt: Timestamp;
+    userId?: string;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -32,18 +43,47 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [loading, setLoading] = useState<boolean>(false);
     const [profile, setProfile] = useState<UserProfile | null>(null);
 
-    const sendQuery = ()=>{
-        
-    }
-    const getquerybydate = (date:Number) =>{
+    const getTodayRange = () => {
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
+        return {
+            start: Timestamp.fromDate(startOfDay),
+            end: Timestamp.fromDate(endOfDay)
+        };
+    };
 
-    }
+    const writeQueryOnDate = async (question_data: Query) => {
+        await addDoc(collection(db, 'query'), {
+            ...question_data
+        });
+        console.log('New document created for the date:');
+    };
 
+    const fetchTodayQueries = async () => {
+        const { start, end } = getTodayRange();
+
+        const q = query(
+            collection(db, "query"),
+            where("createdAt", ">=", start),
+            where("createdAt", "<=", end),
+            limit(20)
+        );
+
+        const snapshot = await getDocs(q);
+        const results = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        console.log("Today's queries:", results);
+        return results;
+    };
 
     useEffect(() => {
         if (!user) {
-            setProfile(null); 
+            setProfile(null);
             return;
         }
 
@@ -97,7 +137,13 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, [user]);
 
     return (
-        <DataContext.Provider value={{ courses, loading , profile}}>
+        <DataContext.Provider value={{
+            courses,
+            loading,
+            profile,
+            writeQueryOnDate,
+            fetchTodayQueries
+        }}>
             {children}
         </DataContext.Provider>
     );
