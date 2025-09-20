@@ -7,7 +7,8 @@ export type UserProfile = {
   email: string | null;
   displayName: string | null;
   createdAt: any; 
-  role: "user" | "admin";
+  role: "student" | "admin";
+  isprofileComplete : boolean
 };
 
 export async function createUserProfileIfNeeded(user: User , name:string ) {
@@ -19,7 +20,9 @@ export async function createUserProfileIfNeeded(user: User , name:string ) {
       email: user.email,
       displayName: user.displayName ?? name,
       createdAt: serverTimestamp(),
-      role: "user",
+      role: "student",
+      isprofileComplete : false
+
     };
     await setDoc(ref, profile);
   }

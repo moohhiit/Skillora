@@ -1,5 +1,6 @@
 
 import { Trophy, User, Star, Calendar, Clock } from "lucide-react";
+import CompleteProfilePopup from "../../Component/Global/ProfileCompleteProp";
 
 interface Student {
   id: number;
@@ -33,7 +34,13 @@ const dailyProgress = {
 
 export default function StudentMarathon() {
   const sortedStudents = [...mockStudents].sort((a, b) => b.technicalScore - a.technicalScore);
+  const isProfileComplete = false
 
+  if(!isProfileComplete){
+    return(
+      <CompleteProfilePopup isProfileComplete={isProfileComplete} />
+    )
+  }
   return (
     <div className="min-h-screen bg-gradient-to-tr from-purple-100 via-blue-50 to-indigo-200 p-6 flex flex-col items-center space-y-8">
       {/* Header */}

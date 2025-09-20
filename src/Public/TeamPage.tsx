@@ -23,7 +23,7 @@ export function TeamPage() {
     },
     {
       name: "Sumit Rathore",
-      role: "AI / ML Engineer",
+      role: "Community Head && AI / ML Engineer",
       image: "https://randomuser.me/api/portraits/women/65.jpg",
       socials: {
         linkedin: "#",

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, Timestamp, where } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, limit, orderBy, query, Timestamp, updateDoc, where } from "firebase/firestore";
 import { useAuth } from "./AuthContext";
 import { db } from "../service/Firebase";
 
@@ -17,6 +17,7 @@ interface DataContextType {
     profile: UserProfile | null;
     writeQueryOnDate: (question_data: Query) => void;
     fetchTodayQueries: () => Promise<Object[]>;
+    addObjectToUserArray: (uid : string , arrayField: string, objectToAdd: any) => void
 }
 
 interface UserProfile {
@@ -81,6 +82,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return results;
     };
 
+    async function addObjectToUserArray(uid: string, arrayField: string, objectToAdd: any) {
+        const userDocRef = doc(db, "users", uid);
+
+        try {
+            await updateDoc(userDocRef, {
+                [arrayField]: arrayUnion(objectToAdd)
+            });
+            console.log("Object added to array successfully!");
+        } catch (error) {
+            console.error("Error updating user document:", error);
+        }
+    }
+
     useEffect(() => {
         if (!user) {
             setProfile(null);
@@ -110,31 +124,31 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         fetchUserProfile();
     }, [user]);
 
-    useEffect(() => {
-        if (!user) {
+    // useEffect(() => {
+    //     if (!user) {
 
-            setCourses([]);
-            return;
-        }
+    //         setCourses([]);
+    //         return;
+    //     }
 
-        const fetchCourses = async () => {
-            setLoading(true);
-            try {
-                const querySnapshot = await getDocs(collection(db, "Courses"));
-                const courseList: Course[] = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                })) as Course[];
-                setCourses(courseList);
-            } catch (error) {
-                console.error("Error fetching courses:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    //     const fetchCourses = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const querySnapshot = await getDocs(collection(db, "Courses"));
+    //             const courseList: Course[] = querySnapshot.docs.map((doc) => ({
+    //                 id: doc.id,
+    //                 ...doc.data(),
+    //             })) as Course[];
+    //             setCourses(courseList);
+    //         } catch (error) {
+    //             console.error("Error fetching courses:", error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
 
-        fetchCourses();
-    }, [user]);
+    //     fetchCourses();
+    // }, [user]);
 
     return (
         <DataContext.Provider value={{
@@ -142,7 +156,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             loading,
             profile,
             writeQueryOnDate,
-            fetchTodayQueries
+            fetchTodayQueries,
+            addObjectToUserArray
         }}>
             {children}
         </DataContext.Provider>

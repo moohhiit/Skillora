@@ -119,6 +119,7 @@ function SignupRedirect() {
 
 function PrivateLayout() {
   const [activeTab, setActiveTab] = useState<TabType>("cartoon");
+  
 
   return (
     <motion.div

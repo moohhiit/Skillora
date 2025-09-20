@@ -80,8 +80,8 @@ export function HomePage() {
 
             <div className="relative">
               <img
-                src="https://cdn.pixabay.com/photo/2023/08/13/22/00/computer-8188538_1280.jpg"
-                className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+                src="./src/assets/HomePageImage.png"
+                className="w-full h-full object-cover rounded-2xl shadow-2xl"
               />
               {/* Removed previous purple overlay */}
             </div>

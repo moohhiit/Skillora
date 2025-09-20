@@ -19,6 +19,8 @@ import { db } from "../../service/Firebase";
 import { useAuth } from "../../Context/AuthContext";
 import { IssueModal } from "../../Component/ProjectComponent/Modal/IssueModal";
 import CreateNewPost from "../../Component/ProjectComponent/Modal/CreateNewPost";
+import { useDataContext } from "../../Context/UserDataContext";
+import ApplyModal from "../../Component/ProjectComponent/Modal/ApplyModal";
 
 type Role = "Creator" | "Contributor" | "Viewer" | "Guest" | "HR";
 type ModalType = "issue" | "message" | "update" | "apply" | "addMember" | null;
@@ -34,7 +36,7 @@ export default function ProjectDetail() {
   const [modalType, setModalType] = useState<ModalType>(null);
   // Context 
   const { user } = useAuth()
-
+  const { addObjectToUserArray } = useDataContext()
 
   const [role, setRole] = useState<Role>('Creator');
 
@@ -42,8 +44,6 @@ export default function ProjectDetail() {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editDesc, setEditDesc] = useState("");
-  const [newIssueTitle, setNewIssueTitle] = useState("");
-  const [newIssueDesc, setNewIssueDesc] = useState("");
   const [newMessageText, setNewMessageText] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
 
@@ -179,12 +179,47 @@ export default function ProjectDetail() {
     }
   };
 
+  // Apply Application
+
+  const applyApplication = async (
+    projectId: string,
+    des: string,
+    role: string,
+   
+  ) => {
+    if (!user) return alert("Please log in to apply");
+    if (!projectId) return alert("Invalid project ID");
+    try {
+      const updateProfile = {
+        project_id: id,
+        appliedAt: serverTimestamp(),
+        role: role,
+        status: 'Pending'
+      }
+      const newApp = {
+        userId: user.uid,
+        name: user.displayName || user.email || "Anonymous",
+        description: des,
+        role: role,
+        status: "Pending",
+        appliedAt: serverTimestamp(),
+
+      };
+      addObjectToUserArray(user?.uid, 'applied_project_list', updateProfile)
+      await addDoc(collection(db, "Open_Projects", id as string, "applications"), newApp);
+
+    } catch (err: any) {
+      console.error("Application error:", err);
+      alert(err.message || "Failed to apply");
+    }
+  };
+
   // Apply for a vacant member slot (transaction safe)
-  const applyForMember = async (memberId: string) => {
+  const acceptContributer = async (postid: string, userUId: string, UserName: String, userEmail: string) => {
     if (!user) return alert("Please login to apply");
     if (!id) return;
     setLoadingAction(true);
-    const memberRef = doc(db, "Open_Projects", id, "members", memberId);
+    const memberRef = doc(db, "Open_Projects", id, "members", postid);
     try {
       await runTransaction(db, async (tx) => {
         const mSnap = await tx.get(memberRef);
@@ -192,12 +227,13 @@ export default function ProjectDetail() {
         const data = mSnap.data() as any;
         if (data.userId) throw new Error("Slot already taken");
         tx.update(memberRef, {
-          userId: user.uid,
-          name: user.displayName || user.email || null,
+          userId: userUId,
+          name: UserName,
+          email: userEmail,
           status: "Occupied",
         });
       });
-      alert("Applied successfully ✅");
+
     } catch (err: any) {
       console.error(err);
       alert(err.message || "Could not apply");
@@ -207,21 +243,19 @@ export default function ProjectDetail() {
   };
 
   // Add issue (Creator & Contributor)
-  const handleAddIssue = async () => {
-    if (!id || !newIssueTitle) return alert("Provide issue title");
+  const handleAddIssue = async (title: String, description: String) => {
+    if (!id || !title) return alert("Provide issue title");
     if (!user) return alert("Login required");
     setLoadingAction(true);
     try {
       await addDoc(collection(db, "Open_Projects", id, "issues"), {
-        title: newIssueTitle,
-        description: newIssueDesc || "",
+        title: title,
+        description: description || "",
         status: "Open",
         creatorId: user.uid,
         assignedTo: null,
         createdAt: serverTimestamp(),
       });
-      setNewIssueTitle("");
-      setNewIssueDesc("");
     } catch (err) {
       console.error(err);
       alert("Error creating issue");
@@ -351,13 +385,15 @@ export default function ProjectDetail() {
                   </div>
                   <div>
                     {m.status === "Vacant" ? (
+
                       <button
-                        onClick={() => applyForMember(m.id)}
-                        disabled={!user || loadingAction}
+                        onClick={() => setModalType('apply')}
+                        disabled={!user || loadingAction || role == 'Creator' || role == 'HR'}
                         className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
                         title={user ? "Apply for this role" : "Login to apply"}
+
                       >
-                        Apply
+                        {role == 'Creator' || role == 'HR' ? 'Open' : ' Apply'}
                       </button>
                     ) : (
                       <span className="text-sm text-gray-600">Assigned</span>
@@ -371,11 +407,23 @@ export default function ProjectDetail() {
 
 
         {/* Issues column */}
-        <div className="bg-white p-5 rounded-xl shadow">
+        <div className="bg-white p-5 rounded-xl shadow h-[400px]">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">🐞 Issues</h2>
             {(role === "Creator" || role === "Contributor") && (
-              <div className="text-sm text-gray-500">You can add & update</div>
+              <div className="mt-4">
+
+                <button
+                  onClick={() => setModalType('issue')}
+                  className={`flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg hover:from-red-700 hover:to-red-600 shadow-sm hover:shadow-md transition-all text-sm font-medium ${loadingAction ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  disabled={loadingAction}
+                >
+                  <Plus size={16} />
+                  Add Issue
+                </button>
+
+              </div>
             )}
           </div>
 
@@ -414,43 +462,22 @@ export default function ProjectDetail() {
           </div>
 
           {/* add issue form */}
-          {(role === "Creator" || role === "Contributor") && (
-            <div className="mt-4">
-              <input
-                value={newIssueTitle}
-                onChange={(e) => setNewIssueTitle(e.target.value)}
-                placeholder="Issue title"
-                className="w-full px-3 py-2 border rounded mb-2"
-              />
-              <textarea
-                value={newIssueDesc}
-                onChange={(e) => setNewIssueDesc(e.target.value)}
-                placeholder="Description (optional)"
-                className="w-full px-3 py-2 border rounded mb-2"
-              />
-              <div className="flex justify-end">
-                <button
-                  onClick={handleAddIssue}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                  disabled={loadingAction}
-                >
-                  <Plus size={14} /> Add Issue
-                </button>
-              </div>
-            </div>
-          )}
+
         </div>
 
         {/* Messages column */}
-        <div className="bg-white p-5 rounded-xl shadow flex flex-col">
+        <div className="bg-white p-5 rounded-xl shadow flex flex-col h-[400px]">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold flex items-center gap-2"><MessageCircle /> Messages</h2>
-            <div className="text-sm text-gray-500">{messages.length} messages</div>
+            <h2 className="text-lg font-semibold flex items-center gap-2"><MessageCircle /> Notice</h2>
+            <div className="text-sm text-gray-500">{messages.length} Notice</div>
           </div>
 
-          <div ref={messagesRefEl} className="mt-4 overflow-y-auto flex-1 space-y-3 pr-2">
+          <div
+            ref={messagesRefEl}
+            className="mt-4 overflow-y-auto flex-1 space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+          >
             {messages.length === 0 ? (
-              <p className="text-sm text-gray-500">No messages yet — start a conversation.</p>
+              <p className="text-sm text-gray-500">No notice yet — start a conversation.</p>
             ) : (
               messages.map((m) => (
                 <div
@@ -464,31 +491,34 @@ export default function ProjectDetail() {
               ))
             )}
           </div>
+          {role == 'Contributor' || role == 'Creator' && (
 
-          <div className="mt-4 flex gap-2">
-            <input
-              className="flex-1 px-3 py-2 border rounded"
-              placeholder={user ? "Write a message..." : "Login to send messages"}
-              value={newMessageText}
-              onChange={(e) => setNewMessageText(e.target.value)}
-              disabled={!user}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!user || !newMessageText.trim() || loadingAction}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2"
-              title={user ? "Send" : "Login to send"}
-            >
-              <Send size={14} /> Send
-            </button>
-          </div>
+            <div className="mt-4 flex gap-2">
+              <input
+                className="flex-1 px-3 py-2 border rounded"
+                placeholder={user ? "Write a notice..." : "Login to send messages"}
+                value={newMessageText}
+                onChange={(e) => setNewMessageText(e.target.value)}
+                disabled={!user}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!user || !newMessageText.trim() || loadingAction}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2"
+                title={user ? "Send" : "Login to send"}
+              >
+                <Send size={14} /> Send
+              </button>
+            </div>
+          )}
         </div>
+
         {/*Application Section */}
         {
           role == 'HR' || role == 'Creator' && (<div className="mt-6 bg-white p-5 rounded-xl shadow">
@@ -545,7 +575,8 @@ export default function ProjectDetail() {
       )}
 
       {modalType === "addMember" && <CreateNewPost onClose={handleCloseModal} onSubmit={(data) => handleAddMember(data.jobRole, data.description, data.techstack)} />}
-      {/* {modalType === 'issue' && <IssueModal onClose={handleCloseModal} onSubmit={(data) => handleAddMember(data.jobRole, data.description, data.techstack)} />} */}
+      {modalType === 'issue' && <IssueModal onClose={handleCloseModal} onSubmit={(data) => handleAddIssue(data.issueTitle, data.issueDescription)} />}
+      {modalType === 'apply' && <ApplyModal onClose={handleCloseModal} />}
     </div>
   );
 }
